@@ -13,7 +13,7 @@ app.set('view engine', 'ejs')
 
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello Cong Anh !')
 })
 
 app.get('/abc', (req, res) => {
