@@ -1,6 +1,7 @@
+const connection = require('../config/database');
 
 const getHomepage = (req, res) => {
-    res.send('Hello Cong Anh !')
+    return res.render('home.ejs');
 }
 
 const getABC = (req, res) => {
