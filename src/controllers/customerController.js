@@ -3,6 +3,8 @@ const { createCustomerService, createArrayCustomerService, getAllCustomerService
     putUpdateCustomerService, deleteACustomerService, deleteArrayCustomerService
 } = require("../services/customerService");
 
+const aqp = require('api-query-params');
+
 module.exports = {
     postCreateCustomer: async (req, res) => {
         let { name, address, phone, email, description } = req.body;
@@ -47,7 +49,20 @@ module.exports = {
         }
     },
     getAllCustomers: async (req, res) => {
-        let result = await getAllCustomerService();
+
+        const query = aqp(
+            'status=sent&timestamp>2016-01-01&author.firstName=/john/i&limit=100&skip=50&sort=-timestamp&populate=logs&fields=id,logs.ip'
+        );
+        console.log(">>>filer: ", query);
+
+        let limit = req.query.limit;
+        let page = req.query.page;
+        let name = req.query.name;
+        let result = null;
+        if (limit && page) {
+            result = await getAllCustomerService(limit, page, name);
+        } else
+            result = await getAllCustomerService();
         return res.status(200).json({
             EC: 0,
             data: result
